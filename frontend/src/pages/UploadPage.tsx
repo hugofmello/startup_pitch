@@ -79,54 +79,15 @@ const UploadPage: React.FC = () => {
         // Mostrar mensagem de depuração explícita
         console.log('Iniciando busca de startups na API');
         
-        // Verificar o proxy diretamente
-        try {
-          console.log('Tentando verificar o servidor proxy...');
-          const proxyStatus = await axios.get('http://localhost:3002/status', { timeout: 500 });
-          console.log('Resposta do servidor proxy:', proxyStatus.status);
-          
-          if (proxyStatus.status === 200) {
-            addLogMessage('Servidor proxy disponível, tentando buscar startups via proxy...');
-            
-            // Chamar o proxy diretamente
-            try {
-              const proxyResponse = await axios.get('http://localhost:3002/api/startups');
-              console.log('Resposta do proxy:', proxyResponse);
-              
-              if (proxyResponse.data && proxyResponse.data.data) {
-                const startups = proxyResponse.data.data;
-                addLogMessage(`${startups.length} startups encontradas via proxy`);
-                
-                // Atualizar o estado
-                setState(prevState => ({ 
-                  ...prevState, 
-                  startupOptions: startups.map((s: Startup) => ({ id: s.id, label: s.name })),
-                  isLoading: false
-                }));
-                
-                return; // Encerrar função após sucesso
-              } else {
-                addLogMessage('Resposta do proxy inválida: formato inesperado');
-                console.log('Formato inesperado na resposta do proxy');
-              }
-            } catch (proxyApiError) {
-              console.error('Erro ao chamar API via proxy:', proxyApiError);
-              addLogMessage(`Erro ao chamar API via proxy: ${proxyApiError instanceof Error ? proxyApiError.message : 'Erro desconhecido'}`);
-            }
-          }
-        } catch (proxyStatusError) {
-          console.log('Servidor proxy indisponível:', proxyStatusError);
-          addLogMessage('Servidor proxy indisponível, tentando API diretamente');
-        }
+        // Não tentar o proxy local, usar diretamente a API implantada
+        const apiUrl = process.env.REACT_APP_API_URL || '';
+        const response = await startupApi.getAllStartups();
+        addLogMessage(`${response.length} startups encontradas via API direta`);
         
-        // Tentar usar a função normal da API se o proxy falhar
-        addLogMessage('Tentando buscar startups diretamente da API...');
-        const startups = await startupApi.getAllStartups();
-        
-        addLogMessage(`${startups.length} startups encontradas via API direta`);
+        // Atualizar o estado
         setState(prevState => ({ 
           ...prevState, 
-          startupOptions: startups.map((s: Startup) => ({ id: s.id, label: s.name })),
+          startupOptions: response.map((s: Startup) => ({ id: s.id, label: s.name })),
           isLoading: false
         }));
       } catch (error) {

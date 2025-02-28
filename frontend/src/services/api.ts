@@ -92,6 +92,14 @@ const isTestEnvironment = () => {
          window.location.href.includes('api-test');
 };
 
+// Função utilitária para verificar se estamos na página de teste
+const isApiTestPage = (): boolean => {
+  return window.location.href.includes('api-test');
+};
+
+// Função antiga que não é mais usada
+const isDebugEnvironment = isApiTestPage;
+
 // Tamanho máximo do chunk em bytes (2MB)
 const MAX_CHUNK_SIZE = 2 * 1024 * 1024;
 
@@ -199,23 +207,8 @@ export const startupApi = {
   // Listar todas as startups
   getAllStartups: async (): Promise<Startup[]> => {
     try {
-      // Primeiro, tenta usar o proxy local
-      try {
-        console.log('Tentando obter startups através do proxy...');
-        const proxyResponse = await axios.get<ApiResponse<Startup[]>>('http://localhost:3002/api/startups');
-        console.log('Resposta do proxy:', proxyResponse.data);
-        
-        if (proxyResponse.data && proxyResponse.data.data) {
-          return proxyResponse.data.data;
-        } else {
-          console.warn('Formato de resposta inesperado do proxy');
-        }
-      } catch (proxyError) {
-        console.warn('Não foi possível usar o servidor proxy:', proxyError);
-      }
-      
-      // Se o proxy falhar, tenta acessar a API diretamente
-      console.log('Tentando obter startups diretamente da API...');
+      // Tentar acessar a API diretamente
+      console.log('Obtendo startups diretamente da API...');
       const apiUrl = process.env.REACT_APP_API_URL || '';
       const response = await api.get<ApiResponse<Startup[]>>(`/startups`);
       

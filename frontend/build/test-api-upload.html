@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Upload API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Teste de Upload para API</h1>
+        <form id="uploadForm">
+            <div class="form-group">
+                <label for="fileName">Nome do Arquivo:</label>
+                <input type="text" id="fileName" value="teste.txt">
+            </div>
+            
+            <div class="form-group">
+                <label for="fileType">Tipo do Arquivo:</label>
+                <select id="fileType">
+                    <option value="PITCH">PITCH</option>
+                    <option value="BUSINESS_MODEL_CANVAS">BUSINESS_MODEL_CANVAS</option>
+                    <option value="FINANCIAL_MODEL">FINANCIAL_MODEL</option>
+                    <option value="SHAREHOLDERS_AGREEMENT" selected>SHAREHOLDERS_AGREEMENT</option>
+                    <option value="ARTICLES_OF_ASSOCIATION">ARTICLES_OF_ASSOCIATION</option>
+                    <option value="INVESTMENT_AGREEMENT">INVESTMENT_AGREEMENT</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="startupId">ID da Startup:</label>
+                <input type="text" id="startupId" value="test-startup-123">
+            </div>
+            
+            <div class="form-group">
+                <label for="fileInput">Selecionar Arquivo:</label>
+                <input type="file" id="fileInput">
+            </div>
+            
+            <div class="form-group">
+                <label for="endpoint">Endpoint:</label>
+                <select id="endpoint">
+                    <option value="local-api" selected>API Local (http://localhost:3005/upload)</option>
+                    <option value="cfapi">CloudFront API (https://d34fwpy973tn5i.cloudfront.net/upload)</option>
+                    <option value="api">API Direta (https://i76vr76m51.execute-api.us-east-1.amazonaws.com/prod/upload)</option>
+                </select>
+            </div>
+            
+            <button type="button" id="uploadButton">Fazer Upload</button>
+            <button type="button" id="testOptionsButton">Testar OPTIONS</button>
+        </form>
+        
+        <div id="output" class="output" style="display: none;">
+            <h2>Resultado:</h2>
+            <div id="statusOutput"></div>
+            <pre id="responseOutput"></pre>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadButton = document.getElementById('uploadButton');
+            const testOptionsButton = document.getElementById('testOptionsButton');
+            const output = document.getElementById('output');
+            const statusOutput = document.getElementById('statusOutput');
+            const responseOutput = document.getElementById('responseOutput');
+            
+            // Função para converter arquivo para Base64
+            function fileToBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => {
+                        // Remover o prefixo (ex: "data:image/png;base64,")
+                        const base64String = reader.result.split(',')[1];
+                        resolve(base64String);
+                    };
+                    reader.onerror = error => reject(error);
+                });
+            }
+            
+            // Função para mostrar resultado
+            function showResult(success, message, data) {
+                output.style.display = 'block';
+                statusOutput.innerHTML = `<div style="color: ${success ? 'green' : 'red'}; font-weight: bold;">${message}</div>`;
+                responseOutput.textContent = typeof data === 'object' ? JSON.stringify(data, null, 2) : data;
+            }
+            
+            // Handler para botão de testar OPTIONS
+            testOptionsButton.addEventListener('click', async function() {
+                try {
+                    const endpoint = document.getElementById('endpoint').value;
+                    
+                    // Determinar URL baseado no endpoint selecionado
+                    let url;
+                    switch(endpoint) {
+                        case 'local-api':
+                            url = 'http://localhost:3005/upload';
+                            break;
+                        case 'cfapi':
+                            url = 'https://d34fwpy973tn5i.cloudfront.net/upload';
+                            break;
+                        case 'api':
+                            url = 'https://i76vr76m51.execute-api.us-east-1.amazonaws.com/prod/upload';
+                            break;
+                        default:
+                            url = 'http://localhost:3005/upload';
+                    }
+                    
+                    // Mostrar status de carregamento
+                    showResult(true, `Enviando OPTIONS para ${url}...`, {});
+                    
+                    // Fazer requisição OPTIONS
+                    const response = await fetch(url, {
+                        method: 'OPTIONS',
+                        headers: {
+                            'Origin': 'http://localhost:3004',
+                            'Access-Control-Request-Method': 'POST',
+                            'Access-Control-Request-Headers': 'Content-Type'
+                        }
+                    });
+                    
+                    // Extrair cabeçalhos para exibição
+                    const headers = {};
+                    response.headers.forEach((value, key) => {
+                        headers[key] = value;
+                    });
+                    
+                    // Mostrar resposta
+                    showResult(
+                        response.ok || response.status === 204,
+                        `OPTIONS ${response.ok || response.status === 204 ? 'bem-sucedido' : 'falhou'}! Status: ${response.status}`,
+                        {
+                            status: response.status,
+                            statusText: response.statusText,
+                            headers: headers
+                        }
+                    );
+                } catch (error) {
+                    console.error('Erro ao testar OPTIONS:', error);
+                    showResult(false, "Erro no teste OPTIONS: " + error.message, error);
+                }
+            });
+            
+            // Handler para botão de upload
+            uploadButton.addEventListener('click', async function() {
+                try {
+                    // Obter valores do formulário
+                    const fileName = document.getElementById('fileName').value;
+                    const fileType = document.getElementById('fileType').value;
+                    const startupId = document.getElementById('startupId').value;
+                    const fileInput = document.getElementById('fileInput');
+                    const endpoint = document.getElementById('endpoint').value;
+                    
+                    // Validação básica
+                    if (!fileName) {
+                        showResult(false, "Nome do arquivo é obrigatório", {});
+                        return;
+                    }
+                    
+                    if (!startupId) {
+                        showResult(false, "ID da startup é obrigatório", {});
+                        return;
+                    }
+                    
+                    // Obter conteúdo do arquivo
+                    let fileContent = '';
+                    if (fileInput.files.length > 0) {
+                        fileContent = await fileToBase64(fileInput.files[0]);
+                    } else {
+                        // Usar string simples de teste se nenhum arquivo for selecionado
+                        fileContent = 'VGVzdGUgZGUgY29udGVudGV0aW9u'; // Base64 para "Teste de conteúdo"
+                    }
+                    
+                    // Preparar dados para envio
+                    const data = {
+                        fileName,
+                        fileType,
+                        fileContent,
+                        startupId
+                    };
+                    
+                    // Determinar URL baseado no endpoint selecionado
+                    let url;
+                    switch(endpoint) {
+                        case 'local-api':
+                            url = 'http://localhost:3005/upload';
+                            break;
+                        case 'cfapi':
+                            url = 'https://d34fwpy973tn5i.cloudfront.net/upload';
+                            break;
+                        case 'api':
+                            url = 'https://i76vr76m51.execute-api.us-east-1.amazonaws.com/prod/upload';
+                            break;
+                        default:
+                            url = 'http://localhost:3005/upload';
+                    }
+                    
+                    // Mostrar status de carregamento
+                    showResult(true, `Enviando para ${url}...`, data);
+                    
+                    // Enviar requisição
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Origin': 'http://localhost:3004'
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    // Obter resposta como texto e tentar converter para JSON
+                    const responseText = await response.text();
+                    let responseData;
+                    try {
+                        responseData = JSON.parse(responseText);
+                    } catch (e) {
+                        responseData = responseText;
+                    }
+                    
+                    // Mostrar resposta
+                    if (response.ok) {
+                        showResult(true, `Upload bem-sucedido! Status: ${response.status}`, responseData);
+                    } else {
+                        showResult(false, `Erro no upload. Status: ${response.status}`, responseData);
+                    }
+                    
+                } catch (error) {
+                    showResult(false, `Erro: ${error.message}`, { stack: error.stack });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

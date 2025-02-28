@@ -74,18 +74,21 @@ const ApiTestPage: React.FC = () => {
     addLogMessage('Iniciando teste de configuração CORS...');
     
     try {
-      // Primeiro teste com servidor proxy
-      addLogMessage('Testando conexão através do servidor proxy local...');
-      const proxyResponse = await fetch('http://localhost:3002/api/cors-test', {
-        method: 'OPTIONS'
+      // Usar diretamente a API remota em vez do proxy local
+      const apiUrl = process.env.REACT_APP_API_URL || '';
+      const directResponse = await fetch(`${apiUrl}/cors-test`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       
-      if (proxyResponse.ok) {
-        addLogMessage('Conexão com proxy bem-sucedida!');
+      if (directResponse.ok) {
+        addLogMessage('Conexão com API remota bem-sucedida!');
       }
 
       // Fazer uma solicitação OPTIONS para verificar os cabeçalhos CORS
-      const response = await fetch('https://i76vr76m51.execute-api.us-east-1.amazonaws.com/prod/startups', {
+      const response = await fetch(`${apiUrl}/startups`, {
         method: 'OPTIONS',
         headers: {
           'Origin': window.location.origin,
@@ -170,18 +173,33 @@ const ApiTestPage: React.FC = () => {
             startupId: selectedStartup
           };
           
-          addLogMessage('Enviando arquivo para o servidor via proxy...');
+          addLogMessage('Enviando arquivo para o servidor via API remota...');
           
           // Tentar fazer upload
-          const response = await uploadApi.uploadFile(fileData);
+          const apiUrl = process.env.REACT_APP_API_URL || '';
+          const uploadUrl = `${apiUrl}/upload`;
+          const formData = new FormData();
+          formData.append('file', selectedFile);
+          formData.append('startupId', selectedStartup);
+          formData.append('fileType', selectedFileType);
           
-          const successMessage = `Upload bem-sucedido! ID da tarefa: ${response.taskId}`;
-          setUploadTest({
-            status: 'success',
-            message: successMessage
+          const response = await fetch(uploadUrl, {
+            method: 'POST',
+            body: formData
           });
-          addLogMessage(successMessage);
-          toast.success('Upload realizado com sucesso!');
+          
+          if (response.ok) {
+            const result = await response.json();
+            const successMessage = `Upload bem-sucedido! ID da tarefa: ${result.taskId}`;
+            setUploadTest({
+              status: 'success',
+              message: successMessage
+            });
+            addLogMessage(successMessage);
+            toast.success('Upload realizado com sucesso!');
+          } else {
+            throw new Error(`Status: ${response.status}`);
+          }
         } catch (error) {
           console.error('Erro no teste de upload:', error);
           const errorMsg = `Erro no upload: ${error instanceof Error ? error.message : 'Erro desconhecido'}`;
@@ -190,42 +208,6 @@ const ApiTestPage: React.FC = () => {
             message: errorMsg
           });
           addLogMessage(`Falha: ${errorMsg}`);
-          
-          // Tentar método alternativo com FormData
-          if (error instanceof Error && error.message.includes('413')) {
-            addLogMessage('Arquivo muito grande. Tentando método alternativo...');
-            try {
-              const formData = new FormData();
-              formData.append('file', selectedFile);
-              formData.append('startupId', selectedStartup);
-              formData.append('fileType', selectedFileType);
-              
-              // Usar URL completa para o servidor proxy
-              const proxyUrl = 'http://localhost:3002/api/upload-form';
-              
-              addLogMessage('Enviando via FormData para o proxy...');
-              const formDataResponse = await fetch(proxyUrl, {
-                method: 'POST',
-                body: formData
-              });
-              
-              if (formDataResponse.ok) {
-                const result = await formDataResponse.json();
-                const successMsg = `Upload via FormData bem-sucedido! ID: ${result.taskId || 'desconhecido'}`;
-                setUploadTest({
-                  status: 'success',
-                  message: successMsg
-                });
-                addLogMessage(successMsg);
-                toast.success('Upload alternativo bem-sucedido!');
-              } else {
-                throw new Error(`Status: ${formDataResponse.status}`);
-              }
-            } catch (formError) {
-              addLogMessage(`Método alternativo também falhou: ${formError instanceof Error ? formError.message : 'Erro desconhecido'}`);
-            }
-          }
-          
           toast.error('Falha no upload do arquivo');
         }
       };
