@@ -1,0 +1,264 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API para integração com Voldea",
+    "version" : "2025-02-28T18:27:39Z",
+    "title" : "VoldeaIntegrationApi"
+  },
+  "host" : "i76vr76m51.execute-api.us-east-1.amazonaws.com",
+  "basePath" : "/prod",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/" : {
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/startups" : {
+      "get" : {
+        "responses" : { }
+      },
+      "post" : {
+        "responses" : { }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/startups/{startupId}" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "startupId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : { }
+      },
+      "put" : {
+        "parameters" : [ {
+          "name" : "startupId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : { }
+      },
+      "delete" : {
+        "parameters" : [ {
+          "name" : "startupId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : { }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "startupId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks" : {
+      "get" : {
+        "responses" : { }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{taskId}" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "taskId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : { }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "taskId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/test" : {
+      "get" : {
+        "responses" : { }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upload" : {
+      "post" : {
+        "responses" : { }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "responses" : {
+          "204" : {
+            "description" : "204 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upload/status" : {
+      "get" : {
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            }
+          }
+        }
+      },
+      "options" : {
+        "consumes" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Methods" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Credentials" : {
+                "type" : "string"
+              },
+              "Access-Control-Allow-Headers" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Empty" : {
+      "type" : "object",
+      "title" : "Empty Schema"
+    }
+  }
+}

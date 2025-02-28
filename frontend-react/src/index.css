@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-header {
+  background-color: #f8f9fa;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.card {
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  font-weight: 500;
+}
+
+.file-status-processing {
+  color: #ffc107;
+}
+
+.file-status-completed {
+  color: #28a745;
+}
+
+.file-status-error {
+  color: #dc3545;
+}

@@ -1,0 +1,1503 @@
+{
+ "Resources": {
+  "VoldeaIntegrationApiBE818569": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Description": "API para integração com Voldea",
+    "Name": "VoldeaIntegrationApi"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Resource"
+   }
+  },
+  "VoldeaIntegrationApiCloudWatchRole74375E1F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/CloudWatchRole/Resource"
+   }
+  },
+  "VoldeaIntegrationApiAccountF19288C1": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "VoldeaIntegrationApiCloudWatchRole74375E1F",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "VoldeaIntegrationApiBE818569"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Account"
+   }
+  },
+  "VoldeaIntegrationApiDeployment3AB72F097b584a43615c4c4a83038b938498697c": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "API para integração com Voldea",
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "DependsOn": [
+    "VoldeaIntegrationApiOPTIONS6DA246BF",
+    "VoldeaIntegrationApistartupsstartupIdDELETE5D16D986",
+    "VoldeaIntegrationApistartupsstartupIdGET7F4A2657",
+    "VoldeaIntegrationApistartupsstartupIdOPTIONS13303BED",
+    "VoldeaIntegrationApistartupsstartupIdPUT8AC18ACC",
+    "VoldeaIntegrationApistartupsstartupIdED257FD3",
+    "VoldeaIntegrationApistartupsGET5435EEC3",
+    "VoldeaIntegrationApistartupsOPTIONS8D9CDE15",
+    "VoldeaIntegrationApistartupsPOST5B1DB37B",
+    "VoldeaIntegrationApistartups2C3B80BC",
+    "VoldeaIntegrationApitaskstaskIdGET00437901",
+    "VoldeaIntegrationApitaskstaskIdOPTIONSCA41A152",
+    "VoldeaIntegrationApitaskstaskId7D47AB3C",
+    "VoldeaIntegrationApitasksGET6AFD07B9",
+    "VoldeaIntegrationApitasksOPTIONS2DBA9D42",
+    "VoldeaIntegrationApitasksBE64CF63",
+    "VoldeaIntegrationApitestGETCC21ADC7",
+    "VoldeaIntegrationApitestOPTIONS2E5B905F",
+    "VoldeaIntegrationApitest914239FD",
+    "VoldeaIntegrationApiuploadOPTIONS91C450AB",
+    "VoldeaIntegrationApiuploadPOST1E90802D",
+    "VoldeaIntegrationApiupload7DE31252"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Deployment/Resource"
+   }
+  },
+  "VoldeaIntegrationApiDeploymentStageprod47708BD7": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "VoldeaIntegrationApiDeployment3AB72F097b584a43615c4c4a83038b938498697c"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    },
+    "StageName": "prod"
+   },
+   "DependsOn": [
+    "VoldeaIntegrationApiAccountF19288C1"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "VoldeaIntegrationApiOPTIONS6DA246BF": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "VoldeaIntegrationApiBE818569",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/OPTIONS/Resource"
+   }
+  },
+  "VoldeaIntegrationApiupload7DE31252": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "VoldeaIntegrationApiBE818569",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "upload",
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/upload/Resource"
+   }
+  },
+  "VoldeaIntegrationApiuploadOPTIONS91C450AB": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApiupload7DE31252"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/upload/OPTIONS/Resource"
+   }
+  },
+  "VoldeaIntegrationApiuploadPOST1E90802D": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "ProcessorLambdaArn"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApiupload7DE31252"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/upload/POST/Resource"
+   }
+  },
+  "VoldeaIntegrationApitasksBE64CF63": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "VoldeaIntegrationApiBE818569",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "tasks",
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/Resource"
+   }
+  },
+  "VoldeaIntegrationApitasksOPTIONS2DBA9D42": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApitasksBE64CF63"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/OPTIONS/Resource"
+   }
+  },
+  "VoldeaIntegrationApitasksGET6AFD07B9": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "QueryLambdaArn"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApitasksBE64CF63"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/GET/Resource"
+   }
+  },
+  "VoldeaIntegrationApitaskstaskId7D47AB3C": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "VoldeaIntegrationApitasksBE64CF63"
+    },
+    "PathPart": "{taskId}",
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/{taskId}/Resource"
+   }
+  },
+  "VoldeaIntegrationApitaskstaskIdOPTIONSCA41A152": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApitaskstaskId7D47AB3C"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/{taskId}/OPTIONS/Resource"
+   }
+  },
+  "VoldeaIntegrationApitaskstaskIdGET00437901": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "QueryLambdaArn"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApitaskstaskId7D47AB3C"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/{taskId}/GET/Resource"
+   }
+  },
+  "VoldeaIntegrationApistartups2C3B80BC": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "VoldeaIntegrationApiBE818569",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "startups",
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/Resource"
+   }
+  },
+  "VoldeaIntegrationApistartupsOPTIONS8D9CDE15": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApistartups2C3B80BC"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/OPTIONS/Resource"
+   }
+  },
+  "VoldeaIntegrationApistartupsGET5435EEC3": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "StartupsLambdaArn"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApistartups2C3B80BC"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/GET/Resource"
+   }
+  },
+  "VoldeaIntegrationApistartupsPOST5B1DB37B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "StartupsLambdaArn"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApistartups2C3B80BC"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/POST/Resource"
+   }
+  },
+  "VoldeaIntegrationApistartupsstartupIdED257FD3": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "VoldeaIntegrationApistartups2C3B80BC"
+    },
+    "PathPart": "{startupId}",
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/Resource"
+   }
+  },
+  "VoldeaIntegrationApistartupsstartupIdOPTIONS13303BED": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApistartupsstartupIdED257FD3"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/OPTIONS/Resource"
+   }
+  },
+  "VoldeaIntegrationApistartupsstartupIdGET7F4A2657": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "StartupsLambdaArn"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApistartupsstartupIdED257FD3"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/GET/Resource"
+   }
+  },
+  "VoldeaIntegrationApistartupsstartupIdPUT8AC18ACC": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "StartupsLambdaArn"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApistartupsstartupIdED257FD3"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/PUT/Resource"
+   }
+  },
+  "VoldeaIntegrationApistartupsstartupIdDELETE5D16D986": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "DELETE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "StartupsLambdaArn"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApistartupsstartupIdED257FD3"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/DELETE/Resource"
+   }
+  },
+  "VoldeaIntegrationApitest914239FD": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "VoldeaIntegrationApiBE818569",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "test",
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/test/Resource"
+   }
+  },
+  "VoldeaIntegrationApitestOPTIONS2E5B905F": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApitest914239FD"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/test/OPTIONS/Resource"
+   }
+  },
+  "VoldeaIntegrationApitestGETCC21ADC7": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "TestLambdaArn"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "VoldeaIntegrationApitest914239FD"
+    },
+    "RestApiId": {
+     "Ref": "VoldeaIntegrationApiBE818569"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/VoldeaIntegrationApi/Default/test/GET/Resource"
+   }
+  },
+  "TestApi65B47ECD": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Description": "API para testes da aplicação Voldea",
+    "Name": "Voldea Test API"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/TestApi/Resource"
+   }
+  },
+  "TestApiCloudWatchRole3E85D09F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/TestApi/CloudWatchRole/Resource"
+   }
+  },
+  "TestApiAccountC79E0025": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "TestApiCloudWatchRole3E85D09F",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "TestApi65B47ECD"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/TestApi/Account"
+   }
+  },
+  "TestApiDeployment8541C0A01502a97bdc3dc90e49b49a19ecfd14aa": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "API para testes da aplicação Voldea",
+    "RestApiId": {
+     "Ref": "TestApi65B47ECD"
+    }
+   },
+   "DependsOn": [
+    "TestApihelloGETEB54B0AD",
+    "TestApihelloOPTIONS0F9A27FC",
+    "TestApihello2DFBE146",
+    "TestApiOPTIONSC0608F51"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/TestApi/Deployment/Resource"
+   }
+  },
+  "TestApiDeploymentStageprod9E5CEC48": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "TestApiDeployment8541C0A01502a97bdc3dc90e49b49a19ecfd14aa"
+    },
+    "RestApiId": {
+     "Ref": "TestApi65B47ECD"
+    },
+    "StageName": "prod"
+   },
+   "DependsOn": [
+    "TestApiAccountC79E0025"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/TestApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "TestApiOPTIONSC0608F51": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "TestApi65B47ECD",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "TestApi65B47ECD"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/TestApi/Default/OPTIONS/Resource"
+   }
+  },
+  "TestApihello2DFBE146": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "TestApi65B47ECD",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "hello",
+    "RestApiId": {
+     "Ref": "TestApi65B47ECD"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/TestApi/Default/hello/Resource"
+   }
+  },
+  "TestApihelloOPTIONS0F9A27FC": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "TestApihello2DFBE146"
+    },
+    "RestApiId": {
+     "Ref": "TestApi65B47ECD"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/TestApi/Default/hello/OPTIONS/Resource"
+   }
+  },
+  "TestApihelloGETEB54B0AD": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "HelloLambdaArn"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "TestApihello2DFBE146"
+    },
+    "RestApiId": {
+     "Ref": "TestApi65B47ECD"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/TestApi/Default/hello/GET/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WPQa7CMAxEz8I+NVA2sAS+2CFQOQAyqT8Y0rgijqqq6t1RKEhl5ecZeyznMM+XMJtgEzJbPjLHF+hOivZhsAnnzmF1KRF20Vtl8RsMZLDmKyo12EJXUNB1zWb770e4tlaiV/NHtZO2Iq9JHXUnxSslbYCCgsSnpXf8nvQmZTI/9HU/R97cG8YKukLcIIujvv+ZPESto453Em/Fl5w+6c2x1Zv46QJWkM8n98CcPaNXrgiKob4AXxMRtR0BAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaApiStack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "VoldeaIntegrationApiEndpoint30DB57D3": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "VoldeaIntegrationApiBE818569"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "VoldeaIntegrationApiDeploymentStageprod47708BD7"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "TestApiEndpoint316CA9C6": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "TestApi65B47ECD"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "TestApiDeploymentStageprod9E5CEC48"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "ApiEndpoint": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "VoldeaIntegrationApiBE818569"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "VoldeaIntegrationApiDeploymentStageprod47708BD7"
+      },
+      "/"
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "ApiEndpoint"
+   }
+  },
+  "TestApiEndpoint": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "TestApi65B47ECD"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "TestApiDeploymentStageprod9E5CEC48"
+      },
+      "/"
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "TestApiEndpoint"
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

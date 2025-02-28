@@ -1,0 +1,816 @@
+{
+ "Resources": {
+  "CommonDependenciesLayer96832795": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "CompatibleRuntimes": [
+     "python3.9"
+    ],
+    "Content": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "2559f64c97eb375fdc1a821eb7f94ca006fd3bdf7aeb6d73663c730c22ecade2.zip"
+    },
+    "Description": "Camada com dependências compartilhadas"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaLambdaStack/CommonDependenciesLayer/Resource",
+    "aws:asset:path": "asset.2559f64c97eb375fdc1a821eb7f94ca006fd3bdf7aeb6d73663c730c22ecade2",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Content"
+   }
+  },
+  "ProcessorLambdaServiceRoleE9F4AB56": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaLambdaStack/ProcessorLambda/ServiceRole/Resource"
+   }
+  },
+  "ProcessorLambdaServiceRoleDefaultPolicyFD45CAAE": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "UploadBucketName"
+           },
+           "/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "UploadBucketName"
+           }
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:",
+           {
+            "Ref": "AWS::Region"
+           },
+           ":",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":table/",
+           {
+            "Fn::ImportValue": "TasksTableName"
+           }
+          ]
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ProcessorLambdaServiceRoleDefaultPolicyFD45CAAE",
+    "Roles": [
+     {
+      "Ref": "ProcessorLambdaServiceRoleE9F4AB56"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaLambdaStack/ProcessorLambda/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ProcessorLambda71A929CE": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "82f275af5116af8a0521e68bb0f725287aae1b01b873059e9580dafb75a1ab6f.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "UPLOAD_BUCKET_NAME": {
+       "Fn::ImportValue": "UploadBucketName"
+      },
+      "TASKS_TABLE_NAME": {
+       "Fn::ImportValue": "TasksTableName"
+      },
+      "VOLDEA_API_KEY": "gpIy7drK3k1ht4yDq5tsOIL302ePgkRaekUj6sx4",
+      "PDF_DEPLOYMENT_ID": "7739ae6d-a0f5-4716-a7a9-99e7cf9cc7ab",
+      "TXT_DEPLOYMENT_ID": "7739ae6d-a0f5-4716-a7a9-99e7cf9cc7ab",
+      "EXCEL_DEPLOYMENT_ID": "0ed0a398-de99-4ca6-9f0e-408fc6ed54ee"
+     }
+    },
+    "Handler": "processor.handler",
+    "Layers": [
+     {
+      "Ref": "CommonDependenciesLayer96832795"
+     }
+    ],
+    "Role": {
+     "Fn::GetAtt": [
+      "ProcessorLambdaServiceRoleE9F4AB56",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.9",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ProcessorLambdaServiceRoleDefaultPolicyFD45CAAE",
+    "ProcessorLambdaServiceRoleE9F4AB56"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VoldeaLambdaStack/ProcessorLambda/Resource",
+    "aws:asset:path": "asset.82f275af5116af8a0521e68bb0f725287aae1b01b873059e9580dafb75a1ab6f",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "QueryLambdaServiceRole0A274106": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaLambdaStack/QueryLambda/ServiceRole/Resource"
+   }
+  },
+  "QueryLambdaServiceRoleDefaultPolicy863C88F5": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:",
+           {
+            "Ref": "AWS::Region"
+           },
+           ":",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":table/",
+           {
+            "Fn::ImportValue": "ResultsTableName"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:",
+           {
+            "Ref": "AWS::Region"
+           },
+           ":",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":table/",
+           {
+            "Fn::ImportValue": "TasksTableName"
+           }
+          ]
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "QueryLambdaServiceRoleDefaultPolicy863C88F5",
+    "Roles": [
+     {
+      "Ref": "QueryLambdaServiceRole0A274106"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaLambdaStack/QueryLambda/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "QueryLambda54767050": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "b5958a1bd61fc0b514cbacd1698f1a23001ff076fa6e6621f8150059378294de.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TASKS_TABLE_NAME": {
+       "Fn::ImportValue": "TasksTableName"
+      },
+      "RESULTS_TABLE_NAME": {
+       "Fn::ImportValue": "ResultsTableName"
+      },
+      "VOLDEA_API_KEY": "gpIy7drK3k1ht4yDq5tsOIL302ePgkRaekUj6sx4"
+     }
+    },
+    "Handler": "query.handler",
+    "Layers": [
+     {
+      "Ref": "CommonDependenciesLayer96832795"
+     }
+    ],
+    "Role": {
+     "Fn::GetAtt": [
+      "QueryLambdaServiceRole0A274106",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.9",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "QueryLambdaServiceRoleDefaultPolicy863C88F5",
+    "QueryLambdaServiceRole0A274106"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VoldeaLambdaStack/QueryLambda/Resource",
+    "aws:asset:path": "asset.b5958a1bd61fc0b514cbacd1698f1a23001ff076fa6e6621f8150059378294de",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "StartupsLambdaServiceRole1B1AA110": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaLambdaStack/StartupsLambda/ServiceRole/Resource"
+   }
+  },
+  "StartupsLambdaServiceRoleDefaultPolicy2B70C870": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:",
+           {
+            "Ref": "AWS::Region"
+           },
+           ":",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":table/",
+           {
+            "Fn::ImportValue": "StartupsTableName"
+           }
+          ]
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "StartupsLambdaServiceRoleDefaultPolicy2B70C870",
+    "Roles": [
+     {
+      "Ref": "StartupsLambdaServiceRole1B1AA110"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaLambdaStack/StartupsLambda/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "StartupsLambda280623DC": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "de672f76779549bd84f25cc635d12d1ec4c49bb87e24eeb64adbf45cdf0b7212.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "STARTUPS_TABLE_NAME": {
+       "Fn::ImportValue": "StartupsTableName"
+      }
+     }
+    },
+    "Handler": "startups.handler",
+    "Layers": [
+     {
+      "Ref": "CommonDependenciesLayer96832795"
+     }
+    ],
+    "Role": {
+     "Fn::GetAtt": [
+      "StartupsLambdaServiceRole1B1AA110",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.9",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "StartupsLambdaServiceRoleDefaultPolicy2B70C870",
+    "StartupsLambdaServiceRole1B1AA110"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VoldeaLambdaStack/StartupsLambda/Resource",
+    "aws:asset:path": "asset.de672f76779549bd84f25cc635d12d1ec4c49bb87e24eeb64adbf45cdf0b7212",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WNwW7CQAxEv4X7xi3JhR4BqSckUKi4ImfXpSab3Sr2CkVR/h1l00rt6c2MZ+QS1uUGXlf4kMK6tvDcwHhWtK3Bh1xHqWCXbEu6QyHjhoBddA18YOMpRx67xiGMBxyov1AvHIPZf4Z//j0Fqz+HXz0Zqa4oQiqwnWEYOxjr6GmuZZ6iZzvMdlHTZHL1rHjjcDM1SUy9zYNj0u+kefon3cfgeHl3GvQrhpcK3qBcr+7CXPQpKHcE9cIn9LFKDw0BAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "VoldeaLambdaStack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "ProcessorLambdaArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ProcessorLambda71A929CE",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "ProcessorLambdaArn"
+   }
+  },
+  "QueryLambdaArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "QueryLambda54767050",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "QueryLambdaArn"
+   }
+  },
+  "StartupsLambdaArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "StartupsLambda280623DC",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "StartupsLambdaArn"
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

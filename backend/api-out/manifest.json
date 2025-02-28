@@ -1,0 +1,727 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "VoldeaInfraStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "VoldeaInfraStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "VoldeaInfraStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "VoldeaInfraStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/013f7addab17a1da0ca924945a04e6ee2bc38311dda4eae7dcb3c26a7ee0c7a9.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "VoldeaInfraStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "VoldeaInfraStack.assets"
+      ],
+      "metadata": {
+        "/VoldeaInfraStack/UploadBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadBucketD2C1DA78"
+          }
+        ],
+        "/VoldeaInfraStack/UploadBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadBucketPolicy180778F4"
+          }
+        ],
+        "/VoldeaInfraStack/UploadBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadBucketAutoDeleteObjectsCustomResource36B44E3D"
+          }
+        ],
+        "/VoldeaInfraStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/VoldeaInfraStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/VoldeaInfraStack/FrontendBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendBucketEFE2E19C"
+          }
+        ],
+        "/VoldeaInfraStack/FrontendBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendBucketPolicy1DFF75D9"
+          }
+        ],
+        "/VoldeaInfraStack/FrontendBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendBucketAutoDeleteObjectsCustomResourceDB860B32"
+          }
+        ],
+        "/VoldeaInfraStack/StartupsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StartupsTable7AF56E94"
+          }
+        ],
+        "/VoldeaInfraStack/TasksTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TasksTable88911DC5"
+          }
+        ],
+        "/VoldeaInfraStack/ResultsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResultsTableF0B5BF22"
+          }
+        ],
+        "/VoldeaInfraStack/FrontendDistribution/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendDistributionE6EAF405"
+          }
+        ],
+        "/VoldeaInfraStack/UploadBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadBucketName"
+          }
+        ],
+        "/VoldeaInfraStack/FrontendBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendBucketName"
+          }
+        ],
+        "/VoldeaInfraStack/TasksTableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TasksTableName"
+          }
+        ],
+        "/VoldeaInfraStack/ResultsTableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ResultsTableName"
+          }
+        ],
+        "/VoldeaInfraStack/StartupsTableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StartupsTableName"
+          }
+        ],
+        "/VoldeaInfraStack/CloudFrontURL": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontURL"
+          }
+        ],
+        "/VoldeaInfraStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/VoldeaInfraStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/VoldeaInfraStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/VoldeaInfraStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "VoldeaInfraStack"
+    },
+    "VoldeaLambdaStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "VoldeaLambdaStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "VoldeaLambdaStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "VoldeaLambdaStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c6ebc0b58d1f50673af5b1722a54accb0e6cbb289ed100aed9d8996c4dea6c97.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "VoldeaLambdaStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "VoldeaInfraStack",
+        "VoldeaLambdaStack.assets"
+      ],
+      "metadata": {
+        "/VoldeaLambdaStack/CommonDependenciesLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CommonDependenciesLayer96832795"
+          }
+        ],
+        "/VoldeaLambdaStack/ProcessorLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessorLambdaServiceRoleE9F4AB56"
+          }
+        ],
+        "/VoldeaLambdaStack/ProcessorLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessorLambdaServiceRoleDefaultPolicyFD45CAAE"
+          }
+        ],
+        "/VoldeaLambdaStack/ProcessorLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessorLambda71A929CE"
+          }
+        ],
+        "/VoldeaLambdaStack/QueryLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QueryLambdaServiceRole0A274106"
+          }
+        ],
+        "/VoldeaLambdaStack/QueryLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QueryLambdaServiceRoleDefaultPolicy863C88F5"
+          }
+        ],
+        "/VoldeaLambdaStack/QueryLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QueryLambda54767050"
+          }
+        ],
+        "/VoldeaLambdaStack/StartupsLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StartupsLambdaServiceRole1B1AA110"
+          }
+        ],
+        "/VoldeaLambdaStack/StartupsLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StartupsLambdaServiceRoleDefaultPolicy2B70C870"
+          }
+        ],
+        "/VoldeaLambdaStack/StartupsLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StartupsLambda280623DC"
+          }
+        ],
+        "/VoldeaLambdaStack/ProcessorLambdaArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessorLambdaArn"
+          }
+        ],
+        "/VoldeaLambdaStack/QueryLambdaArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QueryLambdaArn"
+          }
+        ],
+        "/VoldeaLambdaStack/StartupsLambdaArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StartupsLambdaArn"
+          }
+        ],
+        "/VoldeaLambdaStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/VoldeaLambdaStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/VoldeaLambdaStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/VoldeaLambdaStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "VoldeaLambdaStack"
+    },
+    "VoldeaApiStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "VoldeaApiStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "VoldeaApiStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "VoldeaApiStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c5e5b4efe5849be34b5a40dc605afc52005941a309b73eeee180934c7c052927.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "VoldeaApiStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "VoldeaLambdaStack",
+        "VoldeaApiStack.assets"
+      ],
+      "metadata": {
+        "/VoldeaApiStack/ImportedProcessorLambda": [
+          {
+            "type": "aws:cdk:warning",
+            "data": {
+              "Fn::Join": [
+                "",
+                [
+                  "addPermission() has no effect on a Lambda Function with region=",
+                  {
+                    "Fn::Select": [
+                      3,
+                      {
+                        "Fn::Split": [
+                          ":",
+                          {
+                            "Fn::ImportValue": "ProcessorLambdaArn"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  ", account=",
+                  {
+                    "Fn::Select": [
+                      4,
+                      {
+                        "Fn::Split": [
+                          ":",
+                          {
+                            "Fn::ImportValue": "ProcessorLambdaArn"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  ", in a Stack with region=",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ", account=",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ". Suppress this warning if this is is intentional, or pass sameEnvironment=true to fromFunctionAttributes() if you would like to add the permissions. [ack: UnclearLambdaEnvironment]"
+                ]
+              ]
+            },
+            "trace": [
+              "Annotations.addMessage (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "Import.addPermission (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/aws-lambda/lib/function-base.js:2:309)",
+              "LambdaIntegration.bind (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/aws-apigateway/lib/integrations/lambda.js:1:1595)",
+              "new Method (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/aws-apigateway/lib/method.js:1:2738)",
+              "Resource.addMethod (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/aws-apigateway/lib/resource.js:1:1487)",
+              "/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:14534:172",
+              "Kernel._Kernel_ensureSync (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:15160:24)",
+              "Kernel.invoke (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:14534:102)",
+              "KernelHost.processRequest (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:16378:36)",
+              "KernelHost.run (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:16338:22)",
+              "Immediate._onImmediate (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:16339:46)",
+              "process.processImmediate (node:internal/timers:483:21)"
+            ]
+          }
+        ],
+        "/VoldeaApiStack/ImportedQueryLambda": [
+          {
+            "type": "aws:cdk:warning",
+            "data": {
+              "Fn::Join": [
+                "",
+                [
+                  "addPermission() has no effect on a Lambda Function with region=",
+                  {
+                    "Fn::Select": [
+                      3,
+                      {
+                        "Fn::Split": [
+                          ":",
+                          {
+                            "Fn::ImportValue": "QueryLambdaArn"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  ", account=",
+                  {
+                    "Fn::Select": [
+                      4,
+                      {
+                        "Fn::Split": [
+                          ":",
+                          {
+                            "Fn::ImportValue": "QueryLambdaArn"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  ", in a Stack with region=",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ", account=",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ". Suppress this warning if this is is intentional, or pass sameEnvironment=true to fromFunctionAttributes() if you would like to add the permissions. [ack: UnclearLambdaEnvironment]"
+                ]
+              ]
+            },
+            "trace": [
+              "Annotations.addMessage (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "Import.addPermission (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/aws-lambda/lib/function-base.js:2:309)",
+              "LambdaIntegration.bind (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/aws-apigateway/lib/integrations/lambda.js:1:1595)",
+              "new Method (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/aws-apigateway/lib/method.js:1:2738)",
+              "Resource.addMethod (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/aws-apigateway/lib/resource.js:1:1487)",
+              "/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:14534:172",
+              "Kernel._Kernel_ensureSync (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:15160:24)",
+              "Kernel.invoke (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:14534:102)",
+              "KernelHost.processRequest (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:16378:36)",
+              "KernelHost.run (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:16338:22)",
+              "Immediate._onImmediate (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:16339:46)",
+              "process.processImmediate (node:internal/timers:483:21)"
+            ]
+          }
+        ],
+        "/VoldeaApiStack/ImportedStartupsLambda": [
+          {
+            "type": "aws:cdk:warning",
+            "data": {
+              "Fn::Join": [
+                "",
+                [
+                  "addPermission() has no effect on a Lambda Function with region=",
+                  {
+                    "Fn::Select": [
+                      3,
+                      {
+                        "Fn::Split": [
+                          ":",
+                          {
+                            "Fn::ImportValue": "StartupsLambdaArn"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  ", account=",
+                  {
+                    "Fn::Select": [
+                      4,
+                      {
+                        "Fn::Split": [
+                          ":",
+                          {
+                            "Fn::ImportValue": "StartupsLambdaArn"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  ", in a Stack with region=",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ", account=",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ". Suppress this warning if this is is intentional, or pass sameEnvironment=true to fromFunctionAttributes() if you would like to add the permissions. [ack: UnclearLambdaEnvironment]"
+                ]
+              ]
+            },
+            "trace": [
+              "Annotations.addMessage (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "Import.addPermission (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/aws-lambda/lib/function-base.js:2:309)",
+              "LambdaIntegration.bind (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/aws-apigateway/lib/integrations/lambda.js:1:1595)",
+              "new Method (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/aws-apigateway/lib/method.js:1:2738)",
+              "Resource.addMethod (/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/jsii-kernel-gR4iCp/node_modules/aws-cdk-lib/aws-apigateway/lib/resource.js:1:1487)",
+              "/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:14534:172",
+              "Kernel._Kernel_ensureSync (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:15160:24)",
+              "Kernel.invoke (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:14534:102)",
+              "KernelHost.processRequest (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:16378:36)",
+              "KernelHost.run (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:16338:22)",
+              "Immediate._onImmediate (/private/var/folders/4k/tc5hj_rs4tv381snxftfcn900000gn/T/tmpckupif18/lib/program.js:16339:46)",
+              "process.processImmediate (node:internal/timers:483:21)"
+            ]
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApiBE818569"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApiCloudWatchRole74375E1F"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApiAccountF19288C1"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApiDeployment3AB72F097a03e6fa6b8454461cfca01e10b03ec2"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApiDeploymentStageprod47708BD7"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApiEndpoint30DB57D3"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApiOPTIONS6DA246BF"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/upload/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApiupload7DE31252"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/upload/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApiuploadOPTIONS91C450AB"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/upload/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApiuploadPOST1E90802D"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApitasksBE64CF63"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApitasksOPTIONS2DBA9D42"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApitasksGET6AFD07B9"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/{taskId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApitaskstaskId7D47AB3C"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/{taskId}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApitaskstaskIdOPTIONSCA41A152"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/{taskId}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApitaskstaskIdGET00437901"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/startups/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApistartups2C3B80BC"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/startups/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApistartupsOPTIONS8D9CDE15"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/startups/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApistartupsGET5435EEC3"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/startups/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApistartupsPOST5B1DB37B"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApistartupsstartupIdED257FD3"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApistartupsstartupIdOPTIONS13303BED"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApistartupsstartupIdGET7F4A2657"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApistartupsstartupIdPUT8AC18ACC"
+          }
+        ],
+        "/VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VoldeaIntegrationApistartupsstartupIdDELETE5D16D986"
+          }
+        ],
+        "/VoldeaApiStack/ApiEndpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiEndpoint"
+          }
+        ],
+        "/VoldeaApiStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/VoldeaApiStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/VoldeaApiStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/VoldeaApiStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "VoldeaApiStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

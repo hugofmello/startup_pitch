@@ -1,0 +1,155 @@
+---
+swagger: "2.0"
+info:
+  version: "2025-01-29T01:43:26Z"
+  title: "DocuxtractApi"
+host: "api.voldeaone.ai"
+basePath: "/docuxtract"
+schemes:
+- "https"
+paths:
+  /:
+    options:
+      consumes:
+      - "application/json"
+      responses:
+        "204":
+          description: "204 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /tasks:
+    post:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "DocuxtractModel"
+        required: true
+        schema:
+          $ref: "#/definitions/DocuxtractModel"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+        "201":
+          description: "201 response"
+        "400":
+          description: "400 response"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "401 response"
+        "500":
+          description: "500 response"
+          schema:
+            $ref: "#/definitions/Error"
+        "403":
+          description: "403 response"
+        "503":
+          description: "503 response"
+        "409":
+          description: "409 response"
+      security:
+      - api_key: []
+    options:
+      consumes:
+      - "application/json"
+      responses:
+        "204":
+          description: "204 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /tasks/{taskId}:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "taskId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+        "400":
+          description: "400 response"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "401 response"
+        "500":
+          description: "500 response"
+          schema:
+            $ref: "#/definitions/Error"
+        "403":
+          description: "403 response"
+        "503":
+          description: "503 response"
+        "404":
+          description: "404 response"
+      security:
+      - api_key: []
+    options:
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "taskId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "204":
+          description: "204 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "x-api-key"
+    in: "header"
+definitions:
+  DocuxtractModel:
+    type: "object"
+    required:
+    - "deploymentId"
+    - "fileUrl"
+    properties:
+      insights:
+        type: "string"
+      deploymentId:
+        type: "string"
+      fileUrl:
+        type: "string"
+      callbackUrl:
+        type: "string"
+  Empty:
+    type: "object"
+    title: "Empty Schema"
+  Error:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+    title: "Error Schema"

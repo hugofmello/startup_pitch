@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Upload para Voldea</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            min-height: 100px;
+        }
+        .logs {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teste de Upload para Voldea</h1>
+    
+    <div class="container">
+        <div class="form-group">
+            <label for="startupId">ID da Startup:</label>
+            <input type="text" id="startupId" value="test-startup-123">
+        </div>
+        
+        <div class="form-group">
+            <label for="fileType">Tipo de Arquivo:</label>
+            <select id="fileType">
+                <option value="pitch-pdf">PDF (Pitch)</option>
+                <option value="pitch-txt">TXT (Pitch)</option>
+                <option value="pl-xlsx">Excel (P&L)</option>
+                <option value="pl-csv">CSV (P&L)</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="fileUpload">Selecione o Arquivo:</label>
+            <input type="file" id="fileUpload">
+        </div>
+        
+        <button id="uploadButton">Enviar Arquivo</button>
+    </div>
+    
+    <h2>Resultado:</h2>
+    <div class="result" id="resultContainer">
+        Nenhum upload realizado ainda.
+    </div>
+    
+    <h2>Logs:</h2>
+    <div class="logs" id="logsContainer"></div>
+    
+    <script>
+        // Função para adicionar mensagens de log
+        function addLog(message, isError = false) {
+            const logsContainer = document.getElementById('logsContainer');
+            const logEntry = document.createElement('div');
+            logEntry.classList.add(isError ? 'error' : 'success');
+            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logsContainer.appendChild(logEntry);
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+        }
+        
+        // Função para mostrar o resultado
+        function showResult(data, success = true) {
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerHTML = '';
+            resultContainer.classList.remove('success', 'error');
+            resultContainer.classList.add(success ? 'success' : 'error');
+            
+            const pre = document.createElement('pre');
+            pre.textContent = JSON.stringify(data, null, 2);
+            resultContainer.appendChild(pre);
+        }
+        
+        // Função para fazer upload via servidor proxy
+        async function uploadViaProxy(formData) {
+            try {
+                addLog('Verificando status do servidor proxy...');
+                // Verificar se o servidor proxy está online
+                const statusResponse = await fetch('http://localhost:3002/status');
+                
+                if (!statusResponse.ok) {
+                    throw new Error(`Servidor proxy não está disponível: ${statusResponse.status}`);
+                }
+                
+                addLog('Servidor proxy encontrado. Preparando arquivo para upload...');
+                
+                // Obter dados do formulário
+                const startupId = document.getElementById('startupId').value;
+                const fileType = document.getElementById('fileType').value;
+                const fileInput = document.getElementById('fileUpload');
+                
+                if (!fileInput.files.length) {
+                    throw new Error('Nenhum arquivo selecionado');
+                }
+                
+                const file = fileInput.files[0];
+                
+                // Converter o arquivo para Base64
+                const fileReader = new FileReader();
+                
+                fileReader.onload = async function(event) {
+                    try {
+                        // Obter o conteúdo como Base64
+                        const base64Content = event.target.result.split(',')[1];
+                        
+                        addLog(`Arquivo convertido para Base64: ${(base64Content.length / 1024).toFixed(2)} KB`);
+                        
+                        // Preparar dados para enviar
+                        const uploadData = {
+                            startupId: startupId,
+                            fileType: fileType,
+                            fileName: file.name,
+                            fileContent: base64Content
+                        };
+                        
+                        addLog('Enviando dados para o servidor proxy...');
+                        
+                        // Enviar para o servidor proxy
+                        const response = await fetch('http://localhost:3002/api/upload', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(uploadData)
+                        });
+                        
+                        const responseData = await response.json();
+                        
+                        if (!response.ok) {
+                            throw new Error(responseData.error || 'Erro no upload');
+                        }
+                        
+                        addLog('Upload concluído com sucesso!');
+                        showResult(responseData, true);
+                    } catch (error) {
+                        addLog(`Erro durante o upload: ${error.message}`, true);
+                        showResult({ error: error.message }, false);
+                    }
+                };
+                
+                fileReader.onerror = function() {
+                    addLog('Erro ao ler o arquivo', true);
+                    showResult({ error: 'Erro ao ler o arquivo' }, false);
+                };
+                
+                // Iniciar a leitura do arquivo como URL de dados (que inclui base64)
+                fileReader.readAsDataURL(file);
+                
+            } catch (error) {
+                addLog(`Erro: ${error.message}`, true);
+                showResult({ error: error.message }, false);
+            }
+        }
+        
+        // Configurar evento de clique no botão
+        document.getElementById('uploadButton').addEventListener('click', function() {
+            uploadViaProxy();
+        });
+        
+        // Limpar logs ao carregar a página
+        window.onload = function() {
+            document.getElementById('logsContainer').innerHTML = '';
+            addLog('Página carregada. Pronto para fazer upload.');
+        };
+    </script>
+</body>
+</html>

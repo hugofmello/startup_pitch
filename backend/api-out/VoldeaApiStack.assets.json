@@ -1,0 +1,19 @@
+{
+  "version": "36.0.0",
+  "files": {
+    "c5e5b4efe5849be34b5a40dc605afc52005941a309b73eeee180934c7c052927": {
+      "source": {
+        "path": "VoldeaApiStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "c5e5b4efe5849be34b5a40dc605afc52005941a309b73eeee180934c7c052927.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

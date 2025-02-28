@@ -1,0 +1,2766 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "VoldeaInfraStack": {
+        "id": "VoldeaInfraStack",
+        "path": "VoldeaInfraStack",
+        "children": {
+          "UploadBucket": {
+            "id": "UploadBucket",
+            "path": "VoldeaInfraStack/UploadBucket",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "VoldeaInfraStack/UploadBucket/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "corsConfiguration": {
+                      "corsRules": [
+                        {
+                          "allowedHeaders": [
+                            "*"
+                          ],
+                          "allowedMethods": [
+                            "GET",
+                            "POST",
+                            "PUT"
+                          ],
+                          "allowedOrigins": [
+                            "*"
+                          ]
+                        }
+                      ]
+                    },
+                    "tags": [
+                      {
+                        "key": "aws-cdk:auto-delete-objects",
+                        "value": "true"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                  "version": "2.128.0"
+                }
+              },
+              "Policy": {
+                "id": "Policy",
+                "path": "VoldeaInfraStack/UploadBucket/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "VoldeaInfraStack/UploadBucket/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "bucket": {
+                          "Ref": "UploadBucketD2C1DA78"
+                        },
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "s3:DeleteObject*",
+                                "s3:GetBucket*",
+                                "s3:List*",
+                                "s3:PutBucketPolicy"
+                              ],
+                              "Effect": "Allow",
+                              "Principal": {
+                                "AWS": {
+                                  "Fn::GetAtt": [
+                                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                                    "Arn"
+                                  ]
+                                }
+                              },
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "UploadBucketD2C1DA78",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "UploadBucketD2C1DA78",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                  "version": "2.128.0"
+                }
+              },
+              "AutoDeleteObjectsCustomResource": {
+                "id": "AutoDeleteObjectsCustomResource",
+                "path": "VoldeaInfraStack/UploadBucket/AutoDeleteObjectsCustomResource",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "VoldeaInfraStack/UploadBucket/AutoDeleteObjectsCustomResource/Default",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CustomResource",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3.Bucket",
+              "version": "2.128.0"
+            }
+          },
+          "Custom::S3AutoDeleteObjectsCustomResourceProvider": {
+            "id": "Custom::S3AutoDeleteObjectsCustomResourceProvider",
+            "path": "VoldeaInfraStack/Custom::S3AutoDeleteObjectsCustomResourceProvider",
+            "children": {
+              "Staging": {
+                "id": "Staging",
+                "path": "VoldeaInfraStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Staging",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.AssetStaging",
+                  "version": "2.128.0"
+                }
+              },
+              "Role": {
+                "id": "Role",
+                "path": "VoldeaInfraStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.128.0"
+                }
+              },
+              "Handler": {
+                "id": "Handler",
+                "path": "VoldeaInfraStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CustomResourceProviderBase",
+              "version": "2.128.0"
+            }
+          },
+          "FrontendBucket": {
+            "id": "FrontendBucket",
+            "path": "VoldeaInfraStack/FrontendBucket",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "VoldeaInfraStack/FrontendBucket/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "corsConfiguration": {
+                      "corsRules": [
+                        {
+                          "allowedHeaders": [
+                            "*"
+                          ],
+                          "allowedMethods": [
+                            "GET"
+                          ],
+                          "allowedOrigins": [
+                            "*"
+                          ]
+                        }
+                      ]
+                    },
+                    "publicAccessBlockConfiguration": {
+                      "blockPublicAcls": true,
+                      "ignorePublicAcls": true
+                    },
+                    "tags": [
+                      {
+                        "key": "aws-cdk:auto-delete-objects",
+                        "value": "true"
+                      }
+                    ],
+                    "websiteConfiguration": {
+                      "indexDocument": "index.html",
+                      "errorDocument": "index.html"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                  "version": "2.128.0"
+                }
+              },
+              "Policy": {
+                "id": "Policy",
+                "path": "VoldeaInfraStack/FrontendBucket/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "VoldeaInfraStack/FrontendBucket/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "bucket": {
+                          "Ref": "FrontendBucketEFE2E19C"
+                        },
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "s3:GetObject",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "AWS": "*"
+                              },
+                              "Resource": {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "FrontendBucketEFE2E19C",
+                                        "Arn"
+                                      ]
+                                    },
+                                    "/*"
+                                  ]
+                                ]
+                              }
+                            },
+                            {
+                              "Action": [
+                                "s3:DeleteObject*",
+                                "s3:GetBucket*",
+                                "s3:List*",
+                                "s3:PutBucketPolicy"
+                              ],
+                              "Effect": "Allow",
+                              "Principal": {
+                                "AWS": {
+                                  "Fn::GetAtt": [
+                                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                                    "Arn"
+                                  ]
+                                }
+                              },
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "FrontendBucketEFE2E19C",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "FrontendBucketEFE2E19C",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                  "version": "2.128.0"
+                }
+              },
+              "AutoDeleteObjectsCustomResource": {
+                "id": "AutoDeleteObjectsCustomResource",
+                "path": "VoldeaInfraStack/FrontendBucket/AutoDeleteObjectsCustomResource",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "VoldeaInfraStack/FrontendBucket/AutoDeleteObjectsCustomResource/Default",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnResource",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CustomResource",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3.Bucket",
+              "version": "2.128.0"
+            }
+          },
+          "StartupsTable": {
+            "id": "StartupsTable",
+            "path": "VoldeaInfraStack/StartupsTable",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "VoldeaInfraStack/StartupsTable/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                  "aws:cdk:cloudformation:props": {
+                    "attributeDefinitions": [
+                      {
+                        "attributeName": "id",
+                        "attributeType": "S"
+                      }
+                    ],
+                    "billingMode": "PAY_PER_REQUEST",
+                    "keySchema": [
+                      {
+                        "attributeName": "id",
+                        "keyType": "HASH"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                  "version": "2.128.0"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "VoldeaInfraStack/StartupsTable/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+              "version": "2.128.0"
+            }
+          },
+          "TasksTable": {
+            "id": "TasksTable",
+            "path": "VoldeaInfraStack/TasksTable",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "VoldeaInfraStack/TasksTable/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                  "aws:cdk:cloudformation:props": {
+                    "attributeDefinitions": [
+                      {
+                        "attributeName": "taskId",
+                        "attributeType": "S"
+                      }
+                    ],
+                    "billingMode": "PAY_PER_REQUEST",
+                    "keySchema": [
+                      {
+                        "attributeName": "taskId",
+                        "keyType": "HASH"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                  "version": "2.128.0"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "VoldeaInfraStack/TasksTable/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+              "version": "2.128.0"
+            }
+          },
+          "ResultsTable": {
+            "id": "ResultsTable",
+            "path": "VoldeaInfraStack/ResultsTable",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "VoldeaInfraStack/ResultsTable/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                  "aws:cdk:cloudformation:props": {
+                    "attributeDefinitions": [
+                      {
+                        "attributeName": "taskId",
+                        "attributeType": "S"
+                      }
+                    ],
+                    "billingMode": "PAY_PER_REQUEST",
+                    "keySchema": [
+                      {
+                        "attributeName": "taskId",
+                        "keyType": "HASH"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                  "version": "2.128.0"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "VoldeaInfraStack/ResultsTable/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+              "version": "2.128.0"
+            }
+          },
+          "FrontendDistribution": {
+            "id": "FrontendDistribution",
+            "path": "VoldeaInfraStack/FrontendDistribution",
+            "children": {
+              "Origin1": {
+                "id": "Origin1",
+                "path": "VoldeaInfraStack/FrontendDistribution/Origin1",
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.4.2"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "VoldeaInfraStack/FrontendDistribution/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CloudFront::Distribution",
+                  "aws:cdk:cloudformation:props": {
+                    "distributionConfig": {
+                      "enabled": true,
+                      "origins": [
+                        {
+                          "domainName": {
+                            "Fn::Select": [
+                              2,
+                              {
+                                "Fn::Split": [
+                                  "/",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "FrontendBucketEFE2E19C",
+                                      "WebsiteURL"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "id": "VoldeaInfraStackFrontendDistributionOrigin1BC2D1EF6",
+                          "customOriginConfig": {
+                            "originSslProtocols": [
+                              "TLSv1.2"
+                            ],
+                            "originProtocolPolicy": "http-only"
+                          }
+                        }
+                      ],
+                      "defaultCacheBehavior": {
+                        "pathPattern": "*",
+                        "targetOriginId": "VoldeaInfraStackFrontendDistributionOrigin1BC2D1EF6",
+                        "allowedMethods": [
+                          "GET",
+                          "HEAD",
+                          "OPTIONS"
+                        ],
+                        "cachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                        "compress": true,
+                        "viewerProtocolPolicy": "redirect-to-https"
+                      },
+                      "customErrorResponses": [
+                        {
+                          "errorCachingMinTtl": 1800,
+                          "errorCode": 404,
+                          "responseCode": 200,
+                          "responsePagePath": "/index.html"
+                        },
+                        {
+                          "errorCachingMinTtl": 1800,
+                          "errorCode": 403,
+                          "responseCode": 200,
+                          "responsePagePath": "/index.html"
+                        }
+                      ],
+                      "httpVersion": "http2",
+                      "ipv6Enabled": true
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cloudfront.CfnDistribution",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_cloudfront.Distribution",
+              "version": "2.128.0"
+            }
+          },
+          "UploadBucketName": {
+            "id": "UploadBucketName",
+            "path": "VoldeaInfraStack/UploadBucketName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.128.0"
+            }
+          },
+          "FrontendBucketName": {
+            "id": "FrontendBucketName",
+            "path": "VoldeaInfraStack/FrontendBucketName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.128.0"
+            }
+          },
+          "TasksTableName": {
+            "id": "TasksTableName",
+            "path": "VoldeaInfraStack/TasksTableName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.128.0"
+            }
+          },
+          "ResultsTableName": {
+            "id": "ResultsTableName",
+            "path": "VoldeaInfraStack/ResultsTableName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.128.0"
+            }
+          },
+          "StartupsTableName": {
+            "id": "StartupsTableName",
+            "path": "VoldeaInfraStack/StartupsTableName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.128.0"
+            }
+          },
+          "CloudFrontURL": {
+            "id": "CloudFrontURL",
+            "path": "VoldeaInfraStack/CloudFrontURL",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.128.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "VoldeaInfraStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "VoldeaInfraStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.128.0"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "VoldeaInfraStack/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.4.2"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "VoldeaInfraStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.128.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "VoldeaInfraStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.128.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.128.0"
+        }
+      },
+      "VoldeaLambdaStack": {
+        "id": "VoldeaLambdaStack",
+        "path": "VoldeaLambdaStack",
+        "children": {
+          "ImportedUploadBucket": {
+            "id": "ImportedUploadBucket",
+            "path": "VoldeaLambdaStack/ImportedUploadBucket",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+              "version": "2.128.0"
+            }
+          },
+          "ImportedTasksTable": {
+            "id": "ImportedTasksTable",
+            "path": "VoldeaLambdaStack/ImportedTasksTable",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.TableBase",
+              "version": "2.128.0"
+            }
+          },
+          "ImportedResultsTable": {
+            "id": "ImportedResultsTable",
+            "path": "VoldeaLambdaStack/ImportedResultsTable",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.TableBase",
+              "version": "2.128.0"
+            }
+          },
+          "ImportedStartupsTable": {
+            "id": "ImportedStartupsTable",
+            "path": "VoldeaLambdaStack/ImportedStartupsTable",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.TableBase",
+              "version": "2.128.0"
+            }
+          },
+          "CommonDependenciesLayer": {
+            "id": "CommonDependenciesLayer",
+            "path": "VoldeaLambdaStack/CommonDependenciesLayer",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "VoldeaLambdaStack/CommonDependenciesLayer/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "VoldeaLambdaStack/CommonDependenciesLayer/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "VoldeaLambdaStack/CommonDependenciesLayer/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.128.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "VoldeaLambdaStack/CommonDependenciesLayer/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::LayerVersion",
+                  "aws:cdk:cloudformation:props": {
+                    "compatibleRuntimes": [
+                      "python3.9"
+                    ],
+                    "content": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "2559f64c97eb375fdc1a821eb7f94ca006fd3bdf7aeb6d73663c730c22ecade2.zip"
+                    },
+                    "description": "Camada com dependências compartilhadas"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnLayerVersion",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.LayerVersion",
+              "version": "2.128.0"
+            }
+          },
+          "ProcessorLambda": {
+            "id": "ProcessorLambda",
+            "path": "VoldeaLambdaStack/ProcessorLambda",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "VoldeaLambdaStack/ProcessorLambda/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "VoldeaLambdaStack/ProcessorLambda/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "VoldeaLambdaStack/ProcessorLambda/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "VoldeaLambdaStack/ProcessorLambda/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "VoldeaLambdaStack/ProcessorLambda/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "s3:Abort*",
+                                    "s3:DeleteObject*",
+                                    "s3:GetBucket*",
+                                    "s3:GetObject*",
+                                    "s3:List*",
+                                    "s3:PutObject",
+                                    "s3:PutObjectLegalHold",
+                                    "s3:PutObjectRetention",
+                                    "s3:PutObjectTagging",
+                                    "s3:PutObjectVersionTagging"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":s3:::",
+                                          {
+                                            "Fn::ImportValue": "UploadBucketName"
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":s3:::",
+                                          {
+                                            "Fn::ImportValue": "UploadBucketName"
+                                          }
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:BatchWriteItem",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:DeleteItem",
+                                    "dynamodb:DescribeTable",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:PutItem",
+                                    "dynamodb:Query",
+                                    "dynamodb:Scan",
+                                    "dynamodb:UpdateItem"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":dynamodb:",
+                                          {
+                                            "Ref": "AWS::Region"
+                                          },
+                                          ":",
+                                          {
+                                            "Ref": "AWS::AccountId"
+                                          },
+                                          ":table/",
+                                          {
+                                            "Fn::ImportValue": "TasksTableName"
+                                          }
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "ProcessorLambdaServiceRoleDefaultPolicyFD45CAAE",
+                            "roles": [
+                              {
+                                "Ref": "ProcessorLambdaServiceRoleE9F4AB56"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.128.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.128.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "VoldeaLambdaStack/ProcessorLambda/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "VoldeaLambdaStack/ProcessorLambda/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "VoldeaLambdaStack/ProcessorLambda/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.128.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "VoldeaLambdaStack/ProcessorLambda/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "82f275af5116af8a0521e68bb0f725287aae1b01b873059e9580dafb75a1ab6f.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "UPLOAD_BUCKET_NAME": {
+                          "Fn::ImportValue": "UploadBucketName"
+                        },
+                        "TASKS_TABLE_NAME": {
+                          "Fn::ImportValue": "TasksTableName"
+                        },
+                        "VOLDEA_API_KEY": "gpIy7drK3k1ht4yDq5tsOIL302ePgkRaekUj6sx4",
+                        "PDF_DEPLOYMENT_ID": "7739ae6d-a0f5-4716-a7a9-99e7cf9cc7ab",
+                        "TXT_DEPLOYMENT_ID": "7739ae6d-a0f5-4716-a7a9-99e7cf9cc7ab",
+                        "EXCEL_DEPLOYMENT_ID": "0ed0a398-de99-4ca6-9f0e-408fc6ed54ee"
+                      }
+                    },
+                    "handler": "processor.handler",
+                    "layers": [
+                      {
+                        "Ref": "CommonDependenciesLayer96832795"
+                      }
+                    ],
+                    "role": {
+                      "Fn::GetAtt": [
+                        "ProcessorLambdaServiceRoleE9F4AB56",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.9",
+                    "timeout": 30
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.128.0"
+            }
+          },
+          "QueryLambda": {
+            "id": "QueryLambda",
+            "path": "VoldeaLambdaStack/QueryLambda",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "VoldeaLambdaStack/QueryLambda/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "VoldeaLambdaStack/QueryLambda/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "VoldeaLambdaStack/QueryLambda/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "VoldeaLambdaStack/QueryLambda/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "VoldeaLambdaStack/QueryLambda/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:BatchWriteItem",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:DeleteItem",
+                                    "dynamodb:DescribeTable",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:PutItem",
+                                    "dynamodb:Query",
+                                    "dynamodb:Scan",
+                                    "dynamodb:UpdateItem"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":dynamodb:",
+                                          {
+                                            "Ref": "AWS::Region"
+                                          },
+                                          ":",
+                                          {
+                                            "Ref": "AWS::AccountId"
+                                          },
+                                          ":table/",
+                                          {
+                                            "Fn::ImportValue": "ResultsTableName"
+                                          }
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":dynamodb:",
+                                          {
+                                            "Ref": "AWS::Region"
+                                          },
+                                          ":",
+                                          {
+                                            "Ref": "AWS::AccountId"
+                                          },
+                                          ":table/",
+                                          {
+                                            "Fn::ImportValue": "TasksTableName"
+                                          }
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "QueryLambdaServiceRoleDefaultPolicy863C88F5",
+                            "roles": [
+                              {
+                                "Ref": "QueryLambdaServiceRole0A274106"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.128.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.128.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "VoldeaLambdaStack/QueryLambda/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "VoldeaLambdaStack/QueryLambda/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "VoldeaLambdaStack/QueryLambda/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.128.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "VoldeaLambdaStack/QueryLambda/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "b5958a1bd61fc0b514cbacd1698f1a23001ff076fa6e6621f8150059378294de.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "TASKS_TABLE_NAME": {
+                          "Fn::ImportValue": "TasksTableName"
+                        },
+                        "RESULTS_TABLE_NAME": {
+                          "Fn::ImportValue": "ResultsTableName"
+                        },
+                        "VOLDEA_API_KEY": "gpIy7drK3k1ht4yDq5tsOIL302ePgkRaekUj6sx4"
+                      }
+                    },
+                    "handler": "query.handler",
+                    "layers": [
+                      {
+                        "Ref": "CommonDependenciesLayer96832795"
+                      }
+                    ],
+                    "role": {
+                      "Fn::GetAtt": [
+                        "QueryLambdaServiceRole0A274106",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.9",
+                    "timeout": 30
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.128.0"
+            }
+          },
+          "StartupsLambda": {
+            "id": "StartupsLambda",
+            "path": "VoldeaLambdaStack/StartupsLambda",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "VoldeaLambdaStack/StartupsLambda/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "VoldeaLambdaStack/StartupsLambda/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "VoldeaLambdaStack/StartupsLambda/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "VoldeaLambdaStack/StartupsLambda/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "VoldeaLambdaStack/StartupsLambda/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:BatchWriteItem",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:DeleteItem",
+                                    "dynamodb:DescribeTable",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:PutItem",
+                                    "dynamodb:Query",
+                                    "dynamodb:Scan",
+                                    "dynamodb:UpdateItem"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":dynamodb:",
+                                          {
+                                            "Ref": "AWS::Region"
+                                          },
+                                          ":",
+                                          {
+                                            "Ref": "AWS::AccountId"
+                                          },
+                                          ":table/",
+                                          {
+                                            "Fn::ImportValue": "StartupsTableName"
+                                          }
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "StartupsLambdaServiceRoleDefaultPolicy2B70C870",
+                            "roles": [
+                              {
+                                "Ref": "StartupsLambdaServiceRole1B1AA110"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.128.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.128.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "VoldeaLambdaStack/StartupsLambda/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "VoldeaLambdaStack/StartupsLambda/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "VoldeaLambdaStack/StartupsLambda/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.128.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "VoldeaLambdaStack/StartupsLambda/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "de672f76779549bd84f25cc635d12d1ec4c49bb87e24eeb64adbf45cdf0b7212.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "STARTUPS_TABLE_NAME": {
+                          "Fn::ImportValue": "StartupsTableName"
+                        }
+                      }
+                    },
+                    "handler": "startups.handler",
+                    "layers": [
+                      {
+                        "Ref": "CommonDependenciesLayer96832795"
+                      }
+                    ],
+                    "role": {
+                      "Fn::GetAtt": [
+                        "StartupsLambdaServiceRole1B1AA110",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.9",
+                    "timeout": 30
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.128.0"
+            }
+          },
+          "ProcessorLambdaArn": {
+            "id": "ProcessorLambdaArn",
+            "path": "VoldeaLambdaStack/ProcessorLambdaArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.128.0"
+            }
+          },
+          "QueryLambdaArn": {
+            "id": "QueryLambdaArn",
+            "path": "VoldeaLambdaStack/QueryLambdaArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.128.0"
+            }
+          },
+          "StartupsLambdaArn": {
+            "id": "StartupsLambdaArn",
+            "path": "VoldeaLambdaStack/StartupsLambdaArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.128.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "VoldeaLambdaStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "VoldeaLambdaStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.128.0"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "VoldeaLambdaStack/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.4.2"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "VoldeaLambdaStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.128.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "VoldeaLambdaStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.128.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.128.0"
+        }
+      },
+      "VoldeaApiStack": {
+        "id": "VoldeaApiStack",
+        "path": "VoldeaApiStack",
+        "children": {
+          "ImportedProcessorLambda": {
+            "id": "ImportedProcessorLambda",
+            "path": "VoldeaApiStack/ImportedProcessorLambda",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.FunctionBase",
+              "version": "2.128.0"
+            }
+          },
+          "ImportedQueryLambda": {
+            "id": "ImportedQueryLambda",
+            "path": "VoldeaApiStack/ImportedQueryLambda",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.FunctionBase",
+              "version": "2.128.0"
+            }
+          },
+          "ImportedStartupsLambda": {
+            "id": "ImportedStartupsLambda",
+            "path": "VoldeaApiStack/ImportedStartupsLambda",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.FunctionBase",
+              "version": "2.128.0"
+            }
+          },
+          "VoldeaIntegrationApi": {
+            "id": "VoldeaIntegrationApi",
+            "path": "VoldeaApiStack/VoldeaIntegrationApi",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "VoldeaApiStack/VoldeaIntegrationApi/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::RestApi",
+                  "aws:cdk:cloudformation:props": {
+                    "description": "API para integração com Voldea",
+                    "name": "VoldeaIntegrationApi"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.CfnRestApi",
+                  "version": "2.128.0"
+                }
+              },
+              "CloudWatchRole": {
+                "id": "CloudWatchRole",
+                "path": "VoldeaApiStack/VoldeaIntegrationApi/CloudWatchRole",
+                "children": {
+                  "ImportCloudWatchRole": {
+                    "id": "ImportCloudWatchRole",
+                    "path": "VoldeaApiStack/VoldeaIntegrationApi/CloudWatchRole/ImportCloudWatchRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "VoldeaApiStack/VoldeaIntegrationApi/CloudWatchRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "apigateway.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.128.0"
+                }
+              },
+              "Account": {
+                "id": "Account",
+                "path": "VoldeaApiStack/VoldeaIntegrationApi/Account",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Account",
+                  "aws:cdk:cloudformation:props": {
+                    "cloudWatchRoleArn": {
+                      "Fn::GetAtt": [
+                        "VoldeaIntegrationApiCloudWatchRole74375E1F",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.CfnAccount",
+                  "version": "2.128.0"
+                }
+              },
+              "Deployment": {
+                "id": "Deployment",
+                "path": "VoldeaApiStack/VoldeaIntegrationApi/Deployment",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "VoldeaApiStack/VoldeaIntegrationApi/Deployment/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::Deployment",
+                      "aws:cdk:cloudformation:props": {
+                        "description": "API para integração com Voldea",
+                        "restApiId": {
+                          "Ref": "VoldeaIntegrationApiBE818569"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnDeployment",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.Deployment",
+                  "version": "2.128.0"
+                }
+              },
+              "DeploymentStage.prod": {
+                "id": "DeploymentStage.prod",
+                "path": "VoldeaApiStack/VoldeaIntegrationApi/DeploymentStage.prod",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "VoldeaApiStack/VoldeaIntegrationApi/DeploymentStage.prod/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::Stage",
+                      "aws:cdk:cloudformation:props": {
+                        "deploymentId": {
+                          "Ref": "VoldeaIntegrationApiDeployment3AB72F097a03e6fa6b8454461cfca01e10b03ec2"
+                        },
+                        "restApiId": {
+                          "Ref": "VoldeaIntegrationApiBE818569"
+                        },
+                        "stageName": "prod"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnStage",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.Stage",
+                  "version": "2.128.0"
+                }
+              },
+              "Endpoint": {
+                "id": "Endpoint",
+                "path": "VoldeaApiStack/VoldeaIntegrationApi/Endpoint",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.128.0"
+                }
+              },
+              "Default": {
+                "id": "Default",
+                "path": "VoldeaApiStack/VoldeaIntegrationApi/Default",
+                "children": {
+                  "OPTIONS": {
+                    "id": "OPTIONS",
+                    "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/OPTIONS",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/OPTIONS/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                          "aws:cdk:cloudformation:props": {
+                            "apiKeyRequired": false,
+                            "authorizationType": "NONE",
+                            "httpMethod": "OPTIONS",
+                            "integration": {
+                              "type": "MOCK",
+                              "requestTemplates": {
+                                "application/json": "{ statusCode: 200 }"
+                              },
+                              "integrationResponses": [
+                                {
+                                  "statusCode": "204",
+                                  "responseParameters": {
+                                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                                    "method.response.header.Access-Control-Allow-Origin": "'*'",
+                                    "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+                                  }
+                                }
+                              ]
+                            },
+                            "methodResponses": [
+                              {
+                                "statusCode": "204",
+                                "responseParameters": {
+                                  "method.response.header.Access-Control-Allow-Headers": true,
+                                  "method.response.header.Access-Control-Allow-Origin": true,
+                                  "method.response.header.Access-Control-Allow-Methods": true
+                                }
+                              }
+                            ],
+                            "resourceId": {
+                              "Fn::GetAtt": [
+                                "VoldeaIntegrationApiBE818569",
+                                "RootResourceId"
+                              ]
+                            },
+                            "restApiId": {
+                              "Ref": "VoldeaIntegrationApiBE818569"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                          "version": "2.128.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "upload": {
+                    "id": "upload",
+                    "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/upload",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/upload/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                          "aws:cdk:cloudformation:props": {
+                            "parentId": {
+                              "Fn::GetAtt": [
+                                "VoldeaIntegrationApiBE818569",
+                                "RootResourceId"
+                              ]
+                            },
+                            "pathPart": "upload",
+                            "restApiId": {
+                              "Ref": "VoldeaIntegrationApiBE818569"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
+                          "version": "2.128.0"
+                        }
+                      },
+                      "OPTIONS": {
+                        "id": "OPTIONS",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/upload/OPTIONS",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/upload/OPTIONS/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "apiKeyRequired": false,
+                                "authorizationType": "NONE",
+                                "httpMethod": "OPTIONS",
+                                "integration": {
+                                  "type": "MOCK",
+                                  "requestTemplates": {
+                                    "application/json": "{ statusCode: 200 }"
+                                  },
+                                  "integrationResponses": [
+                                    {
+                                      "statusCode": "204",
+                                      "responseParameters": {
+                                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+                                      }
+                                    }
+                                  ]
+                                },
+                                "methodResponses": [
+                                  {
+                                    "statusCode": "204",
+                                    "responseParameters": {
+                                      "method.response.header.Access-Control-Allow-Headers": true,
+                                      "method.response.header.Access-Control-Allow-Origin": true,
+                                      "method.response.header.Access-Control-Allow-Methods": true
+                                    }
+                                  }
+                                ],
+                                "resourceId": {
+                                  "Ref": "VoldeaIntegrationApiupload7DE31252"
+                                },
+                                "restApiId": {
+                                  "Ref": "VoldeaIntegrationApiBE818569"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.128.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.128.0"
+                        }
+                      },
+                      "POST": {
+                        "id": "POST",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/upload/POST",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/upload/POST/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "authorizationType": "NONE",
+                                "httpMethod": "POST",
+                                "integration": {
+                                  "type": "AWS_PROXY",
+                                  "uri": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":apigateway:",
+                                        {
+                                          "Ref": "AWS::Region"
+                                        },
+                                        ":lambda:path/2015-03-31/functions/",
+                                        {
+                                          "Fn::ImportValue": "ProcessorLambdaArn"
+                                        },
+                                        "/invocations"
+                                      ]
+                                    ]
+                                  },
+                                  "integrationHttpMethod": "POST"
+                                },
+                                "resourceId": {
+                                  "Ref": "VoldeaIntegrationApiupload7DE31252"
+                                },
+                                "restApiId": {
+                                  "Ref": "VoldeaIntegrationApiBE818569"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.128.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.128.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.Resource",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "tasks": {
+                    "id": "tasks",
+                    "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                          "aws:cdk:cloudformation:props": {
+                            "parentId": {
+                              "Fn::GetAtt": [
+                                "VoldeaIntegrationApiBE818569",
+                                "RootResourceId"
+                              ]
+                            },
+                            "pathPart": "tasks",
+                            "restApiId": {
+                              "Ref": "VoldeaIntegrationApiBE818569"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
+                          "version": "2.128.0"
+                        }
+                      },
+                      "OPTIONS": {
+                        "id": "OPTIONS",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/OPTIONS",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/OPTIONS/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "apiKeyRequired": false,
+                                "authorizationType": "NONE",
+                                "httpMethod": "OPTIONS",
+                                "integration": {
+                                  "type": "MOCK",
+                                  "requestTemplates": {
+                                    "application/json": "{ statusCode: 200 }"
+                                  },
+                                  "integrationResponses": [
+                                    {
+                                      "statusCode": "204",
+                                      "responseParameters": {
+                                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+                                      }
+                                    }
+                                  ]
+                                },
+                                "methodResponses": [
+                                  {
+                                    "statusCode": "204",
+                                    "responseParameters": {
+                                      "method.response.header.Access-Control-Allow-Headers": true,
+                                      "method.response.header.Access-Control-Allow-Origin": true,
+                                      "method.response.header.Access-Control-Allow-Methods": true
+                                    }
+                                  }
+                                ],
+                                "resourceId": {
+                                  "Ref": "VoldeaIntegrationApitasksBE64CF63"
+                                },
+                                "restApiId": {
+                                  "Ref": "VoldeaIntegrationApiBE818569"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.128.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.128.0"
+                        }
+                      },
+                      "GET": {
+                        "id": "GET",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/GET",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/GET/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "authorizationType": "NONE",
+                                "httpMethod": "GET",
+                                "integration": {
+                                  "type": "AWS_PROXY",
+                                  "uri": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":apigateway:",
+                                        {
+                                          "Ref": "AWS::Region"
+                                        },
+                                        ":lambda:path/2015-03-31/functions/",
+                                        {
+                                          "Fn::ImportValue": "QueryLambdaArn"
+                                        },
+                                        "/invocations"
+                                      ]
+                                    ]
+                                  },
+                                  "integrationHttpMethod": "POST"
+                                },
+                                "resourceId": {
+                                  "Ref": "VoldeaIntegrationApitasksBE64CF63"
+                                },
+                                "restApiId": {
+                                  "Ref": "VoldeaIntegrationApiBE818569"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.128.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.128.0"
+                        }
+                      },
+                      "{taskId}": {
+                        "id": "{taskId}",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/{taskId}",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/{taskId}/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                              "aws:cdk:cloudformation:props": {
+                                "parentId": {
+                                  "Ref": "VoldeaIntegrationApitasksBE64CF63"
+                                },
+                                "pathPart": "{taskId}",
+                                "restApiId": {
+                                  "Ref": "VoldeaIntegrationApiBE818569"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
+                              "version": "2.128.0"
+                            }
+                          },
+                          "OPTIONS": {
+                            "id": "OPTIONS",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/{taskId}/OPTIONS",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/{taskId}/OPTIONS/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                                  "aws:cdk:cloudformation:props": {
+                                    "apiKeyRequired": false,
+                                    "authorizationType": "NONE",
+                                    "httpMethod": "OPTIONS",
+                                    "integration": {
+                                      "type": "MOCK",
+                                      "requestTemplates": {
+                                        "application/json": "{ statusCode: 200 }"
+                                      },
+                                      "integrationResponses": [
+                                        {
+                                          "statusCode": "204",
+                                          "responseParameters": {
+                                            "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                                            "method.response.header.Access-Control-Allow-Origin": "'*'",
+                                            "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "methodResponses": [
+                                      {
+                                        "statusCode": "204",
+                                        "responseParameters": {
+                                          "method.response.header.Access-Control-Allow-Headers": true,
+                                          "method.response.header.Access-Control-Allow-Origin": true,
+                                          "method.response.header.Access-Control-Allow-Methods": true
+                                        }
+                                      }
+                                    ],
+                                    "resourceId": {
+                                      "Ref": "VoldeaIntegrationApitaskstaskId7D47AB3C"
+                                    },
+                                    "restApiId": {
+                                      "Ref": "VoldeaIntegrationApiBE818569"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                                  "version": "2.128.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                              "version": "2.128.0"
+                            }
+                          },
+                          "GET": {
+                            "id": "GET",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/{taskId}/GET",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/tasks/{taskId}/GET/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                                  "aws:cdk:cloudformation:props": {
+                                    "authorizationType": "NONE",
+                                    "httpMethod": "GET",
+                                    "integration": {
+                                      "type": "AWS_PROXY",
+                                      "uri": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":apigateway:",
+                                            {
+                                              "Ref": "AWS::Region"
+                                            },
+                                            ":lambda:path/2015-03-31/functions/",
+                                            {
+                                              "Fn::ImportValue": "QueryLambdaArn"
+                                            },
+                                            "/invocations"
+                                          ]
+                                        ]
+                                      },
+                                      "integrationHttpMethod": "POST"
+                                    },
+                                    "resourceId": {
+                                      "Ref": "VoldeaIntegrationApitaskstaskId7D47AB3C"
+                                    },
+                                    "restApiId": {
+                                      "Ref": "VoldeaIntegrationApiBE818569"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                                  "version": "2.128.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                              "version": "2.128.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Resource",
+                          "version": "2.128.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.Resource",
+                      "version": "2.128.0"
+                    }
+                  },
+                  "startups": {
+                    "id": "startups",
+                    "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                          "aws:cdk:cloudformation:props": {
+                            "parentId": {
+                              "Fn::GetAtt": [
+                                "VoldeaIntegrationApiBE818569",
+                                "RootResourceId"
+                              ]
+                            },
+                            "pathPart": "startups",
+                            "restApiId": {
+                              "Ref": "VoldeaIntegrationApiBE818569"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
+                          "version": "2.128.0"
+                        }
+                      },
+                      "OPTIONS": {
+                        "id": "OPTIONS",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/OPTIONS",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/OPTIONS/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "apiKeyRequired": false,
+                                "authorizationType": "NONE",
+                                "httpMethod": "OPTIONS",
+                                "integration": {
+                                  "type": "MOCK",
+                                  "requestTemplates": {
+                                    "application/json": "{ statusCode: 200 }"
+                                  },
+                                  "integrationResponses": [
+                                    {
+                                      "statusCode": "204",
+                                      "responseParameters": {
+                                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+                                      }
+                                    }
+                                  ]
+                                },
+                                "methodResponses": [
+                                  {
+                                    "statusCode": "204",
+                                    "responseParameters": {
+                                      "method.response.header.Access-Control-Allow-Headers": true,
+                                      "method.response.header.Access-Control-Allow-Origin": true,
+                                      "method.response.header.Access-Control-Allow-Methods": true
+                                    }
+                                  }
+                                ],
+                                "resourceId": {
+                                  "Ref": "VoldeaIntegrationApistartups2C3B80BC"
+                                },
+                                "restApiId": {
+                                  "Ref": "VoldeaIntegrationApiBE818569"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.128.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.128.0"
+                        }
+                      },
+                      "GET": {
+                        "id": "GET",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/GET",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/GET/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "authorizationType": "NONE",
+                                "httpMethod": "GET",
+                                "integration": {
+                                  "type": "AWS_PROXY",
+                                  "uri": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":apigateway:",
+                                        {
+                                          "Ref": "AWS::Region"
+                                        },
+                                        ":lambda:path/2015-03-31/functions/",
+                                        {
+                                          "Fn::ImportValue": "StartupsLambdaArn"
+                                        },
+                                        "/invocations"
+                                      ]
+                                    ]
+                                  },
+                                  "integrationHttpMethod": "POST"
+                                },
+                                "resourceId": {
+                                  "Ref": "VoldeaIntegrationApistartups2C3B80BC"
+                                },
+                                "restApiId": {
+                                  "Ref": "VoldeaIntegrationApiBE818569"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.128.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.128.0"
+                        }
+                      },
+                      "POST": {
+                        "id": "POST",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/POST",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/POST/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "authorizationType": "NONE",
+                                "httpMethod": "POST",
+                                "integration": {
+                                  "type": "AWS_PROXY",
+                                  "uri": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":apigateway:",
+                                        {
+                                          "Ref": "AWS::Region"
+                                        },
+                                        ":lambda:path/2015-03-31/functions/",
+                                        {
+                                          "Fn::ImportValue": "StartupsLambdaArn"
+                                        },
+                                        "/invocations"
+                                      ]
+                                    ]
+                                  },
+                                  "integrationHttpMethod": "POST"
+                                },
+                                "resourceId": {
+                                  "Ref": "VoldeaIntegrationApistartups2C3B80BC"
+                                },
+                                "restApiId": {
+                                  "Ref": "VoldeaIntegrationApiBE818569"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.128.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.128.0"
+                        }
+                      },
+                      "{startupId}": {
+                        "id": "{startupId}",
+                        "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                              "aws:cdk:cloudformation:props": {
+                                "parentId": {
+                                  "Ref": "VoldeaIntegrationApistartups2C3B80BC"
+                                },
+                                "pathPart": "{startupId}",
+                                "restApiId": {
+                                  "Ref": "VoldeaIntegrationApiBE818569"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
+                              "version": "2.128.0"
+                            }
+                          },
+                          "OPTIONS": {
+                            "id": "OPTIONS",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/OPTIONS",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/OPTIONS/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                                  "aws:cdk:cloudformation:props": {
+                                    "apiKeyRequired": false,
+                                    "authorizationType": "NONE",
+                                    "httpMethod": "OPTIONS",
+                                    "integration": {
+                                      "type": "MOCK",
+                                      "requestTemplates": {
+                                        "application/json": "{ statusCode: 200 }"
+                                      },
+                                      "integrationResponses": [
+                                        {
+                                          "statusCode": "204",
+                                          "responseParameters": {
+                                            "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                                            "method.response.header.Access-Control-Allow-Origin": "'*'",
+                                            "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "methodResponses": [
+                                      {
+                                        "statusCode": "204",
+                                        "responseParameters": {
+                                          "method.response.header.Access-Control-Allow-Headers": true,
+                                          "method.response.header.Access-Control-Allow-Origin": true,
+                                          "method.response.header.Access-Control-Allow-Methods": true
+                                        }
+                                      }
+                                    ],
+                                    "resourceId": {
+                                      "Ref": "VoldeaIntegrationApistartupsstartupIdED257FD3"
+                                    },
+                                    "restApiId": {
+                                      "Ref": "VoldeaIntegrationApiBE818569"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                                  "version": "2.128.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                              "version": "2.128.0"
+                            }
+                          },
+                          "GET": {
+                            "id": "GET",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/GET",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/GET/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                                  "aws:cdk:cloudformation:props": {
+                                    "authorizationType": "NONE",
+                                    "httpMethod": "GET",
+                                    "integration": {
+                                      "type": "AWS_PROXY",
+                                      "uri": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":apigateway:",
+                                            {
+                                              "Ref": "AWS::Region"
+                                            },
+                                            ":lambda:path/2015-03-31/functions/",
+                                            {
+                                              "Fn::ImportValue": "StartupsLambdaArn"
+                                            },
+                                            "/invocations"
+                                          ]
+                                        ]
+                                      },
+                                      "integrationHttpMethod": "POST"
+                                    },
+                                    "resourceId": {
+                                      "Ref": "VoldeaIntegrationApistartupsstartupIdED257FD3"
+                                    },
+                                    "restApiId": {
+                                      "Ref": "VoldeaIntegrationApiBE818569"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                                  "version": "2.128.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                              "version": "2.128.0"
+                            }
+                          },
+                          "PUT": {
+                            "id": "PUT",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/PUT",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/PUT/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                                  "aws:cdk:cloudformation:props": {
+                                    "authorizationType": "NONE",
+                                    "httpMethod": "PUT",
+                                    "integration": {
+                                      "type": "AWS_PROXY",
+                                      "uri": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":apigateway:",
+                                            {
+                                              "Ref": "AWS::Region"
+                                            },
+                                            ":lambda:path/2015-03-31/functions/",
+                                            {
+                                              "Fn::ImportValue": "StartupsLambdaArn"
+                                            },
+                                            "/invocations"
+                                          ]
+                                        ]
+                                      },
+                                      "integrationHttpMethod": "POST"
+                                    },
+                                    "resourceId": {
+                                      "Ref": "VoldeaIntegrationApistartupsstartupIdED257FD3"
+                                    },
+                                    "restApiId": {
+                                      "Ref": "VoldeaIntegrationApiBE818569"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                                  "version": "2.128.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                              "version": "2.128.0"
+                            }
+                          },
+                          "DELETE": {
+                            "id": "DELETE",
+                            "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/DELETE",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "VoldeaApiStack/VoldeaIntegrationApi/Default/startups/{startupId}/DELETE/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                                  "aws:cdk:cloudformation:props": {
+                                    "authorizationType": "NONE",
+                                    "httpMethod": "DELETE",
+                                    "integration": {
+                                      "type": "AWS_PROXY",
+                                      "uri": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":apigateway:",
+                                            {
+                                              "Ref": "AWS::Region"
+                                            },
+                                            ":lambda:path/2015-03-31/functions/",
+                                            {
+                                              "Fn::ImportValue": "StartupsLambdaArn"
+                                            },
+                                            "/invocations"
+                                          ]
+                                        ]
+                                      },
+                                      "integrationHttpMethod": "POST"
+                                    },
+                                    "resourceId": {
+                                      "Ref": "VoldeaIntegrationApistartupsstartupIdED257FD3"
+                                    },
+                                    "restApiId": {
+                                      "Ref": "VoldeaIntegrationApiBE818569"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                                  "version": "2.128.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                              "version": "2.128.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Resource",
+                          "version": "2.128.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.Resource",
+                      "version": "2.128.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.ResourceBase",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_apigateway.RestApi",
+              "version": "2.128.0"
+            }
+          },
+          "ApiEndpoint": {
+            "id": "ApiEndpoint",
+            "path": "VoldeaApiStack/ApiEndpoint",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.128.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "VoldeaApiStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "VoldeaApiStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.128.0"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "VoldeaApiStack/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.128.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.4.2"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "VoldeaApiStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.128.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "VoldeaApiStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.128.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.128.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.4.2"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.128.0"
+    }
+  }
+}
