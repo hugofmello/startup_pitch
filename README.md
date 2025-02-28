@@ -32,6 +32,22 @@ O frontend é construído com React e oferece:
 - **Notas do Pitch (TXT)**: Arquivos TXT com notas de pitch
 - **Notas do P&L (XLSX, XLS, CSV)**: Planilhas contendo notas de P&L
 
+## Recursos Avançados
+
+### Upload em Chunks
+
+A aplicação suporta upload de arquivos grandes através de um sistema de chunks:
+
+- Arquivos são divididos em pedaços menores (2MB) no frontend
+- Backend processa cada chunk e os armazena temporariamente
+- Um endpoint dedicado (/upload/status) permite monitorar o progresso
+- Quando todos os chunks forem recebidos, o arquivo é reconstruído
+
+Essa implementação permite:
+- Superar limitações de tamanho de payload da API Gateway
+- Oferecer feedback de progresso do upload
+- Melhorar a confiabilidade para arquivos grandes
+
 ## Configuração e Implantação
 
 ### Método Simplificado
@@ -53,7 +69,10 @@ Para facilitar a implantação completa da aplicação, foram criados scripts au
    ./deploy-frontend.sh
    ```
 
-Esses scripts automatizam todo o processo, incluindo obtenção das variáveis de ambiente, build, e configuração da distribuição CloudFront.
+4. **Deploy do Suporte a Chunks**: Atualiza a API para suportar upload em chunks
+   ```
+   ./deploy-api-with-chunked-uploads.sh
+   ```
 
 ### Implantação Manual
 
